@@ -18,11 +18,11 @@ func main() {
 	// Запуск горутин, генерирующих числа
 	for i := 0; i < maxGoroutinesCount; i++ {
 		go func() {
-			defer wg.Done() // Уменьшаем счетчик при завершении горутины
+			defer wg.Done()
 			j := 0
-			for { // Каждая горутина генерирует 10 чисел
+			for {
 				randomNumber := rand.Intn(1000)
-				if randomNumber%2 != 0 { // Проверка на четность
+				if randomNumber%2 != 0 {
 					ch <- randomNumber
 					j++
 				}
@@ -34,16 +34,15 @@ func main() {
 		}()
 	}
 
-	// Создание горутины для чтения из канала
 	go func() {
-		defer wg.Done() // Завершаем горутину
+		defer wg.Done()
 		numbers := make([]int, 0, 100)
-		for i := 0; i < 100; i++ { // Ожидаем получения 100 чисел
+		for i := 0; i < 100; i++ {
 			numbers = append(numbers, <-ch)
 		}
 		fmt.Println("Результат:", numbers)
 	}()
 
-	wg.Wait() // Ждем завершения всех горутин
+	wg.Wait()
 	fmt.Println("Все горутины завершены!")
 }
