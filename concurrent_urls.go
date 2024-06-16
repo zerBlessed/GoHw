@@ -23,7 +23,7 @@ func main() {
 
 	for _, url := range ulrs {
 		go func(url string) {
-			defer wg.Done() // Уменьшаем счетчик при завершении горутины
+			defer wg.Done()
 			checkUrl(url)
 		}(url)
 	}
